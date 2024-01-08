@@ -1,6 +1,17 @@
-// const fs = require('fs/promises')
+import { promises } from 'fs';
+import path from 'path';
 
-const listContacts = async () => {};
+const contactsPath = path.join(process.cwd(), 'models/contacts.json');
+
+const listContacts = async () => {
+  try {
+    const data = await promises.readFile(contactsPath, 'utf-8');
+    const contacts = JSON.parse(data);
+    return contacts;
+  } catch (error) {
+    return error.message;
+  }
+};
 
 const getContactById = async contactId => {};
 
