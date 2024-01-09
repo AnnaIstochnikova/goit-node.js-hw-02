@@ -13,7 +13,16 @@ const listContacts = async () => {
   }
 };
 
-const getContactById = async contactId => {};
+const getContactById = async contactId => {
+  try {
+    const data = await promises.readFile(contactsPath, 'utf-8');
+    const contacts = JSON.parse(data);
+    const searchContact = contacts.filter(contact => contact.id === contactId);
+    return searchContact;
+  } catch (error) {
+    return error.message;
+  }
+};
 
 const removeContact = async contactId => {};
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { listContacts } from '../../models/contacts.js';
+import { getContactById, listContacts } from '../../models/contacts.js';
 
 const router = express.Router();
 
@@ -12,9 +12,19 @@ router.get('/contacts', async (req, res) => {
   }
 });
 
-// router.get('/:contactId', async (req, res, next) => {
-//   res.json({ message: 'template message' });
-// });
+router.get('/contacts/:contactId', async (req, res, next) => {
+  const { contactId } = req.params;
+  try {
+    const contact = await getContactById(contactId);
+    if (contact.length !== 0) {
+      res.status(200).json(contact);
+      return;
+    }
+    res.status(404).json({ message: 'Not found' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // router.post('/', async (req, res, next) => {
 //   res.json({ message: 'template message' });
