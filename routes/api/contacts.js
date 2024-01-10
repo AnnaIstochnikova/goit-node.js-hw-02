@@ -1,5 +1,5 @@
 import express from 'express';
-import { getContactById, listContacts } from '../../models/contacts.js';
+import { getContactById, listContacts, removeContact } from '../../models/contacts.js';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get('/contacts', async (req, res) => {
   }
 });
 
-router.get('/contacts/:contactId', async (req, res, next) => {
+router.get('/contacts/:contactId', async (req, res) => {
   const { contactId } = req.params;
   try {
     const contact = await getContactById(contactId);
@@ -26,13 +26,26 @@ router.get('/contacts/:contactId', async (req, res, next) => {
   }
 });
 
-// router.post('/', async (req, res, next) => {
-//   res.json({ message: 'template message' });
+// router.post('/contacts', async (req, res, next) => {
+//   res.json({ message: 'template post' });
 // });
 
-// router.delete('/:contactId', async (req, res, next) => {
-//   res.json({ message: 'template message' });
-// });
+router.delete('/contacts/:contactId', async (req, res) => {
+  const { contactId } = req.params;
+  try {
+    const contacts = await listContacts();
+    const contact = contacts.find(contact => contact.id === contactId);
+    if (contact) {
+      await removeContact(contactId);
+      res.status(200).json({ message: 'Contact deleted' });
+      return;
+    }
+    res.status(404).json({ message: 'Not found' });
+    return;
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // router.put('/:contactId', async (req, res, next) => {
 //   res.json({ message: 'template message' });
