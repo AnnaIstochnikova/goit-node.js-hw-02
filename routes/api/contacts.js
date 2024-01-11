@@ -29,15 +29,13 @@ router.get('/contacts/:contactId', async (req, res) => {
 router.post('/contacts', async (req, res, next) => {
   try {
     const body = req.body;
-    const { id } = body;
     const result = await addContact(body);
-    const { errorMessage } = result;
-    // console.log(id);
+    const { errorMessage, newContact } = result;
     if (errorMessage) {
-      res.status(400).json(`message: ${errorMessage} `);
+      res.status(400).json(`message: ${errorMessage}`);
       return;
     }
-    res.status(201).json(body);
+    res.status(201).json(newContact);
   } catch (err) {
     return err;
   }

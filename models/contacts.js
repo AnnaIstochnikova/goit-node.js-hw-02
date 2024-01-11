@@ -60,7 +60,7 @@ const addContact = async body => {
     const updatedContactList = [...contacts, newContact];
     await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
 
-    return updatedContactList;
+    return { newContact };
   } catch (error) {
     const errorReason = error.details[0].path.toString();
     return { errorMessage: `missing required ${errorReason} - field` };
