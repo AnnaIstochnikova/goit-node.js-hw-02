@@ -27,8 +27,8 @@ const getContactById = async contactId => {
   try {
     const data = await promises.readFile(contactsPath, 'utf-8');
     const contacts = JSON.parse(data);
-    const searchContact = contacts.filter(contact => contact.id === contactId);
-    return searchContact;
+    const searchContact = contacts.filter(contact => contact?.id === contactId);
+    return searchContact[0];
   } catch (error) {
     return error.message;
   }
@@ -38,7 +38,7 @@ const removeContact = async contactId => {
   try {
     const data = await promises.readFile(contactsPath, 'utf-8');
     const contacts = JSON.parse(data);
-    const contactsAfterDelete = contacts.filter(contact => contact.id !== contactId);
+    const contactsAfterDelete = contacts.filter(contact => contact?.id !== contactId);
     const updatedContactList = [...contactsAfterDelete];
     if (contactsAfterDelete !== contacts) {
       await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));

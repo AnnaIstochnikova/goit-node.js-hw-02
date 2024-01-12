@@ -4,7 +4,7 @@ export async function deleteContact(req, res) {
   const { contactId } = req.params;
   try {
     const contacts = await listContacts();
-    const contact = contacts.find(contact => contact.id === contactId);
+    const contact = contacts.find(contact => contact?.id === contactId);
     if (contact) {
       await removeContact(contactId);
       res.status(200).json({ message: 'Contact deleted' });
