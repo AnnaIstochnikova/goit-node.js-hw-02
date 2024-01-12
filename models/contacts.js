@@ -67,6 +67,27 @@ const addContact = async body => {
   }
 };
 
-const updateContact = async (contactId, body) => {};
+const updateContact = async (contactId, body) => {
+  const { name, email, phone } = body;
+  try {
+    const data = await promises.readFile(contactsPath, 'utf-8');
+    const contacts = JSON.parse(data);
+    const search = contacts.find(contact => contact?.id === contactId);
+
+    if (!search) {
+      return { errorType: 404, errorMessage: `Not found` };
+    }
+
+    await schema.validateAsync({ name, email, phone });
+
+    const updatedContact = { id: search.id, name, email, phone };
+    const updatedContactList = [...contacts, updatedContact];
+    await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
+    return { updatedContact };
+  } catch (error) {
+    const errorReason = error.details[0].path.toString();
+    return { errorType: 400, errorMessage: `missing required ${errorReason} - field` };
+  }
+};
 
 export { listContacts, getContactById, removeContact, addContact, updateContact };

@@ -1,5 +1,12 @@
 import express from 'express';
-import { addContact, getContactById, listContacts, removeContact } from '../../models/contacts.js';
+
+import {
+  addContact,
+  getContactById,
+  listContacts,
+  removeContact,
+  updateContact,
+} from '../../models/contacts.js';
 
 const router = express.Router();
 
@@ -26,7 +33,7 @@ router.get('/contacts/:contactId', async (req, res) => {
   }
 });
 
-router.post('/contacts', async (req, res, next) => {
+router.post('/contacts', async (req, res) => {
   try {
     const body = req.body;
     const result = await addContact(body);
@@ -57,8 +64,23 @@ router.delete('/contacts/:contactId', async (req, res) => {
   }
 });
 
-// router.put('/:contactId', async (req, res, next) => {
-//   res.json({ message: 'template message' });
-// });
+router.put('/contacts/:contactId', async (req, res) => {
+  const { contactId } = req.params;
+  try {
+    const body = req.body;
+    const result = await updateContact(contactId, body);
+    const { errorType, errorMessage, updatedContact } = result;
+    if (errorType === 404) {
+      res.status(404).json(`message: ${errorMessage}`);
+      return;
+    } else if (errorType === 400) {
+      res.status(400).json(`message: ${errorMessage}`);
+      return;
+    }
+    res.status(200).json(updatedContact);
+  } catch (err) {
+    return err;
+  }
+});
 
 export { router };
