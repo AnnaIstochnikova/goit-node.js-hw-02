@@ -7,10 +7,10 @@ export async function updateContacts(req, res) {
     const result = await updateContact(contactId, body);
     const { errorType, errorMessage, updatedContact } = result;
     if (errorType === 404) {
-      res.status(404).json(`message: ${errorMessage}`);
+      res.status(404).json(`Message: ${errorMessage}`);
       return;
     } else if (errorType === 400) {
-      res.status(400).json(`message: ${errorMessage}`);
+      res.status(400).json(`Message: ${errorMessage}`);
       return;
     }
     res.status(200).json(updatedContact);

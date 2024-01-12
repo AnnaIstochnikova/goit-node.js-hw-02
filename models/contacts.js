@@ -76,6 +76,10 @@ const addContact = async body => {
 
 const updateContact = async (contactId, body) => {
   const { name, email, phone } = body;
+  const isBodyEmpty = Object.keys(body).length === 0;
+  if (isBodyEmpty) {
+    return { errorType: 400, errorMessage: `Missing fields` };
+  }
   try {
     const data = await promises.readFile(contactsPath, 'utf-8');
     const contacts = JSON.parse(data);
@@ -97,8 +101,7 @@ const updateContact = async (contactId, body) => {
     await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
     return { updatedContact };
   } catch (error) {
-    const errorReason = error.details[0].path.toString();
-    return { errorType: 400, errorMessage: `Missing required ${errorReason} - field` };
+    return error.message;
   }
 };
 
