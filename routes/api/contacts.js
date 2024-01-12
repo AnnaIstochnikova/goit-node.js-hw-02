@@ -1,11 +1,12 @@
 import express from 'express';
 
 import { addContact, getContactById, removeContact, updateContact } from '../../models/contacts.js';
-// import { indexContacts } from '../../controllers/contacts/indexContacts.js';
+import { indexContacts } from '../../controllers/contacts/indexContacts.js';
+import { createContact } from '../../controllers/contacts/createContact.js';
 
 const router = express.Router();
 
-// router.get('/contacts', async (req, res) => indexContacts(req, res));
+router.get('/contacts', indexContacts);
 
 router.get('/contacts/:contactId', async (req, res) => {
   const { contactId } = req.params;
@@ -21,20 +22,7 @@ router.get('/contacts/:contactId', async (req, res) => {
   }
 });
 
-router.post('/contacts', async (req, res) => {
-  try {
-    const body = req.body;
-    const result = await addContact(body);
-    const { errorMessage, newContact } = result;
-    if (errorMessage) {
-      res.status(400).json(`message: ${errorMessage}`);
-      return;
-    }
-    res.status(201).json(newContact);
-  } catch (err) {
-    return err;
-  }
-});
+router.post('/contacts', createContact);
 
 router.delete('/contacts/:contactId', async (req, res) => {
   const { contactId } = req.params;
