@@ -1,23 +1,11 @@
 import express from 'express';
 
-import {
-  addContact,
-  getContactById,
-  listContacts,
-  removeContact,
-  updateContact,
-} from '../../models/contacts.js';
+import { addContact, getContactById, removeContact, updateContact } from '../../models/contacts.js';
+// import { indexContacts } from '../../controllers/contacts/indexContacts.js';
 
 const router = express.Router();
 
-router.get('/contacts', async (req, res) => {
-  try {
-    const contacts = await listContacts();
-    res.json(contacts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// router.get('/contacts', async (req, res) => indexContacts(req, res));
 
 router.get('/contacts/:contactId', async (req, res) => {
   const { contactId } = req.params;
