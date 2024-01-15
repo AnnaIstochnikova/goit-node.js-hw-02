@@ -1,5 +1,5 @@
-import path from 'path';
 import Joi from 'joi';
+import path from 'path';
 import { promises } from 'fs';
 import { nanoid } from 'nanoid';
 

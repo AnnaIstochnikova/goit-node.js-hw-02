@@ -1,4 +1,4 @@
-import { listContacts, removeContact } from '../../models/contacts.js';
+import { listContacts, removeContact } from '#models/contacts.js';
 
 export async function deleteContact(req, res) {
   const { contactId } = req.params;
