@@ -6,8 +6,7 @@ export async function createContact(req, res) {
     const result = await addContact(body);
     const { errorMessage, newContact } = result;
     if (errorMessage) {
-      res.status(400).json(`Message: ${errorMessage}`);
-      return;
+      return res.status(400).json(`Message: ${errorMessage}`);
     }
     res.status(201).json(newContact);
   } catch (err) {

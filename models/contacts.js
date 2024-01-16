@@ -46,9 +46,9 @@ const removeContact = async contactId => {
     const data = await promises.readFile(contactsPath, 'utf-8');
     const contacts = JSON.parse(data);
     const contactsAfterDelete = contacts.filter(contact => contact?.id !== contactId);
-    const updatedContactList = [...contactsAfterDelete];
+    const updatedContactList = JSON.stringify(contactsAfterDelete);
     if (contactsAfterDelete !== contacts) {
-      await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
+      await promises.writeFile(contactsPath, updatedContactList);
     }
   } catch (error) {
     return error.message;
@@ -63,10 +63,8 @@ const addContact = async body => {
 
     await schemaAdd.validateAsync({ name, email, phone });
     const newContact = { id: nanoid(), name, email, phone };
-
-    const updatedContactList = [...contacts, newContact];
+    const updatedContactList = contacts.push(newContact);
     await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
-
     return { newContact };
   } catch (error) {
     const errorReason = error.details[0].path.toString();
@@ -97,7 +95,7 @@ const updateContact = async (contactId, body) => {
       email: email !== undefined ? email : search.email,
       phone: phone !== undefined ? phone : search.phone,
     };
-    const updatedContactList = [...contacts, updatedContact];
+    const updatedContactList = contacts.push(updatedContact);
     await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
     return { updatedContact };
   } catch (error) {

@@ -4,7 +4,7 @@ export async function showContact(req, res) {
   const { contactId } = req.params;
   try {
     const contact = await getContactById(contactId);
-    if (contact.length !== 0) {
+    if (contact !== undefined) {
       res.status(200).json(contact);
       return;
     }
