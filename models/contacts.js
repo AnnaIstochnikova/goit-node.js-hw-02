@@ -80,9 +80,9 @@ const updateContact = async (contactId, body) => {
   }
   try {
     const data = await promises.readFile(contactsPath, 'utf-8');
-    const contacts = JSON.parse(data);
+    let contacts = JSON.parse(data);
     const search = contacts.find(contact => contact?.id === contactId);
-
+    const index = contacts.indexOf(search);
     if (!search) {
       return { errorType: 404, errorMessage: `Not found` };
     }
@@ -95,8 +95,10 @@ const updateContact = async (contactId, body) => {
       email: email !== undefined ? email : search.email,
       phone: phone !== undefined ? phone : search.phone,
     };
-    const updatedContactList = contacts.push(updatedContact);
-    await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
+    contacts[index] = updatedContact;
+
+    await promises.writeFile(contactsPath, JSON.stringify(contacts));
+
     return { updatedContact };
   } catch (error) {
     return error.message;
