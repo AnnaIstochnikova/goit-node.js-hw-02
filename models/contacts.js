@@ -6,18 +6,18 @@ import { nanoid } from 'nanoid';
 const contactsPath = path.join(process.cwd(), 'models/contacts.json');
 const schemaAdd = Joi.object({
   id: Joi.string(),
-  name: Joi.string().alphanum().min(3).max(30).required(),
+  name: Joi.string().required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
     .required(),
-  phone: Joi.number().greater(5).required(),
+  phone: Joi.string().required(),
 });
 
 const schemaUpdate = Joi.object({
   id: Joi.string(),
-  name: Joi.string().alphanum().min(3).max(30),
+  name: Joi.string(),
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
-  phone: Joi.number().greater(5),
+  phone: Joi.string().required(),
 });
 
 const listContacts = async () => {
@@ -60,10 +60,9 @@ const addContact = async body => {
   try {
     const data = await promises.readFile(contactsPath, 'utf-8');
     const contacts = JSON.parse(data);
-
     await schemaAdd.validateAsync({ name, email, phone });
     const newContact = { id: nanoid(), name, email, phone };
-    const updatedContactList = contacts.push(newContact);
+    const updatedContactList = [...contacts, newContact];
     await promises.writeFile(contactsPath, JSON.stringify(updatedContactList));
     return { newContact };
   } catch (error) {
