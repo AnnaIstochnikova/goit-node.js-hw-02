@@ -1,31 +1,56 @@
-## GoIT Node.js Course Template Homework
+# Contacts REST API
 
-Виконайте форк цього репозиторію для виконання домашніх завдань (2-6)
-Форк створить репозиторій на вашому http://github.com
+This project provides a simple API for managing a collection of contacts. 
 
-Додайте ментора до колаборації
+## Installation
+To get started with the Contacts REST API, follow these steps:
+1. Clone the repository to your local machine:
+   git clone https://github.com/AnnaIstochnikova/goit-node.js-hw-02
+2. Navigate to the project directory:
+   cd goit-node.js-hw-02
+3. Install the dependencies:
+   npm install
 
-Для кожної домашньої роботи створюйте свою гілку.
+## Postman Instructions
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+### List Contacts
+1. Set the request type to GET.
+2. Set the request URL to http://localhost:3000/api/contacts.
+3. Click on the "Send" button to retrieve a list of all contacts.
+   ![image](https://github.com/AnnaIstochnikova/goit-node.js-hw-02/assets/122437399/1255991f-925a-47fc-9bab-4bcc0dd210b1)
 
-Кожна нова гілка для др повинна робитися з master
+### Get Contact by ID
+1. Set the request type to GET.
+2. Set the request URL to http://localhost:3000/api/contacts/:id (replace :id with the actual contact ID).
+3. Click on the "Send" button to retrieve the specific contact.
+   ![image](https://github.com/AnnaIstochnikova/goit-node.js-hw-02/assets/122437399/a44a8510-6293-4be8-b9fb-b367c71553b9)
 
-Після того, як ви закінчили виконувати домашнє завдання у своїй гілці, необхідно зробити пулл-реквест (PR). Потім додати ментора для рев'ю коду. Тільки після того, як ментор заапрувить PR, ви можете виконати мердж гілки з домашнім завданням у майстер.
+### Add Contact
+1. Set the request type to POST.
+2. Set the request URL to http://localhost:3000/api/contacts.
+3. Set the request body to raw JSON with the contact details:
+{
+  "name": "Alice Wonderland",
+  "email": "alice@wonderland.com",
+  "phone": "123-340-493"
+}
+4. Click on the "Send" button to add a new contact.
+  ![image](https://github.com/AnnaIstochnikova/goit-node.js-hw-02/assets/122437399/ffebf42f-a4b1-4e76-84c9-767d85e2a1e3)
 
-Уважно читайте коментарі ментора. Виправте зауваження та зробіть коміт у гілці з домашнім завданням. Зміни підтягнуться у PR автоматично після того, як ви відправите коміт з виправленнями на github
-Після виправлення знову додайте ментора на рев'ю коду.
+### Delete Contact
+1. Set the request type to DELETE.
+2. Set the request URL to http://localhost:3000/api/contacts/:id (replace :id with the actual contact ID).
+3. Click on the "Send" button to delete the specific contact.
+   ![image](https://github.com/AnnaIstochnikova/goit-node.js-hw-02/assets/122437399/3d7f8f1f-c3b4-4fc2-913a-3b4c7efd476d)
 
-- При здачі домашньої роботи є посилання на PR
-- JS-код чистий та зрозумілий, для форматування використовується Prettier
-
-### Команди:
-
-- `npm start` &mdash; старт сервера в режимі production
-- `npm run start:dev` &mdash; старт сервера в режимі розробки (development)
-- `npm run lint` &mdash; запустити виконання перевірки коду з eslint, необхідно виконувати перед кожним PR та виправляти всі помилки лінтера
-- `npm lint:fix` &mdash; та ж перевірка лінтера, але з автоматичними виправленнями простих помилок
+### Update Contact
+1. Set the request type to PUT.
+2. Set the request URL to http://localhost:3000/api/contacts/:id (replace :id with the actual contact ID).
+3. Set the request body to raw JSON with the updated contact details:
+{
+  "name": "Cheshire Cat",
+  "email": "cheshire@wonderland.com",
+  "phone": "229-384-384"
+}
+4. Click on the "Send" button to update the specific contact.
+   ![image](https://github.com/AnnaIstochnikova/goit-node.js-hw-02/assets/122437399/52b609c3-957d-4520-bd01-87255d911624)
