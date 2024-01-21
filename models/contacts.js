@@ -1,7 +1,29 @@
-import Joi from 'joi';
-import path from 'path';
 import { promises } from 'fs';
 import { nanoid } from 'nanoid';
+import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
+
+const contactsSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Set name for contact'],
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { versionKey: false, timestamps: true }
+);
+
+const Contact = mongoose.model('contacts', contactsSchema);
 
 const contactsPath = path.join(process.cwd(), 'models/contacts.json');
 const schemaAdd = Joi.object({
@@ -104,4 +126,4 @@ const updateContact = async (contactId, body) => {
   }
 };
 
-export { listContacts, getContactById, removeContact, addContact, updateContact };
+export { addContact, updateContact, Contact };
