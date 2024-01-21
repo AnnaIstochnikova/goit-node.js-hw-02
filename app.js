@@ -1,10 +1,26 @@
 import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 import { router } from './routes/api/contacts.js';
-
+dotenv.config();
 const app = express();
+
+const uriDb = process.env.URI_DB;
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(uriDb);
+    console.log('DB connection successful.');
+    app.listen(3000, () => {
+      console.log('Server running. Use our API on port: 3000');
+    });
+  } catch (err) {
+    console.log(`DB connection error:${err}`);
+  }
+};
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
@@ -22,5 +38,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message });
 });
+
+connectDB();
 
 export { app };
