@@ -1,16 +1,20 @@
-import { updateContact } from '#models/contacts.js';
+import { Contact } from '#models/schemas/contact.js';
 
-export async function updateContacts(req, res) {
+export async function updateContacts(req, res, next) {
   const { contactId } = req.params;
   try {
     const body = req.body;
-    const result = await updateContact(contactId, body);
-    const { errorType, errorMessage, updatedContact } = result;
-    if (errorType) {
-      return res.status(errorType).json(`Message: ${errorMessage}`);
+    const isBodyEmpty = Object.keys(body).length === 0;
+    if (isBodyEmpty) {
+      return res.status(400).json({ message: 'Missing fields' });
     }
-    res.status(200).json(updatedContact);
-  } catch (err) {
-    return err;
+    const updatedContact = await Contact.findByIdAndUpdate(
+      contactId,
+      { $set: body },
+      { new: true }
+    );
+    updatedContact !== null ? res.status(200).json(updatedContact) : next();
+  } catch (error) {
+    next(error);
   }
 }
