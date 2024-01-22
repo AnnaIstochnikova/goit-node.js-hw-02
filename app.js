@@ -19,6 +19,7 @@ const connectDB = async () => {
     });
   } catch (err) {
     console.log(`DB connection error:${err}`);
+    process.exit(1);
   }
 };
 
@@ -36,8 +37,9 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
+  const ValidationErrorReason = Object.keys(err?.errors)[0];
   err.name === 'ValidationError'
-    ? res.status(400).json({ message: `Missing required name - field` })
+    ? res.status(400).json({ message: `Missing required ${ValidationErrorReason} - field` })
     : res.status(500).json({ message: err.message });
 });
 
