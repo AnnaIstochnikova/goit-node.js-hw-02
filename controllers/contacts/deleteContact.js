@@ -1,17 +1,11 @@
-import { listContacts, removeContact } from '#models/contacts.js';
+import { Contact } from '#models/schemas/contact.js';
 
-export async function deleteContact(req, res) {
+export async function deleteContact(req, res, next) {
   const { contactId } = req.params;
   try {
-    const contacts = await listContacts();
-    const contact = contacts.find(contact => contact?.id === contactId);
-    if (contact) {
-      await removeContact(contactId);
-      res.status(200).json({ message: 'Contact deleted' });
-      return;
-    }
-    res.status(404).json({ message: 'Not found' });
+    const contact = await Contact.findByIdAndDelete(contactId);
+    contact ? res.status(200).json({ message: 'Contact deleted' }) : next();
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 }
