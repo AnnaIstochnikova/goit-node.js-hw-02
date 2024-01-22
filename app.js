@@ -32,11 +32,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/contacts', router);
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' });
+  res.status(404).json({ message: 'Contact with the given ID was not found' });
 });
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
+  err.name === 'ValidationError'
+    ? res.status(400).json({ message: `Missing required name - field` })
+    : res.status(500).json({ message: err.message });
 });
 
 connectDB();
