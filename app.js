@@ -9,7 +9,7 @@ import { usersRouter } from './routes/api/users.js';
 dotenv.config();
 const app = express();
 
-const uriDb = process.env.URI_DB;
+const { URI_DB: uriDb } = process.env;
 
 const connectDB = async () => {
   try {

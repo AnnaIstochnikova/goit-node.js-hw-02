@@ -2,16 +2,20 @@ import { User } from '#models/schemas/user.js';
 import { validateUser } from '#models/validateUser.js';
 
 export async function signup(req, res, next) {
+  const { email, password } = req.body;
   try {
-    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Missing fields' });
+    }
+
     const { value, error } = await validateUser(email, password);
     if (error) {
-      return res.status(404).json({ message: error });
+      return res.status(400).json({ message: error });
     }
 
     const sameEmail = await User.findOne({ email }).lean();
     if (sameEmail) {
-      res.status(409).json({ message: 'Email in use' });
+      return res.status(409).json({ message: 'Email in use' });
     }
 
     const newUser = new User({ email });
