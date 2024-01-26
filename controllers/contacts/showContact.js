@@ -1,15 +1,11 @@
-import { getContactById } from '#models/contacts.js';
+import { Contact } from '#models/schemas/contact.js';
 
-export async function showContact(req, res) {
+export async function showContact(req, res, next) {
   const { contactId } = req.params;
   try {
-    const contact = await getContactById(contactId);
-    if (contact !== undefined) {
-      res.status(200).json(contact);
-      return;
-    }
-    res.status(404).json({ message: 'Not found' });
+    const contact = await Contact.findById(contactId);
+    contact ? res.status(200).json(contact) : next();
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 }

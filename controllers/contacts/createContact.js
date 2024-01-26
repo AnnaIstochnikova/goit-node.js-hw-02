@@ -1,15 +1,11 @@
-import { addContact } from '#models/contacts.js';
+import { Contact } from '#models/schemas/contact.js';
 
-export async function createContact(req, res) {
+export async function createContact(req, res, next) {
   try {
     const body = req.body;
-    const result = await addContact(body);
-    const { errorMessage, newContact } = result;
-    if (errorMessage) {
-      return res.status(400).json(`Message: ${errorMessage}`);
-    }
-    res.status(201).json(newContact);
-  } catch (err) {
-    return err;
+    const newContact = await Contact.create(body);
+    newContact ? res.status(201).json(newContact) : next();
+  } catch (error) {
+    next(error);
   }
 }
