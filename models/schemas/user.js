@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
 
 const usersSchema = new Schema({
@@ -24,6 +25,10 @@ const usersSchema = new Schema({
     ref: 'user',
   },
 });
+
+usersSchema.methods.setPassword = function (password) {
+  this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+};
 
 const User = mongoose.model('users', usersSchema);
 
