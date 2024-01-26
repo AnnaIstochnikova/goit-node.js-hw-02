@@ -4,7 +4,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-import { router } from './routes/api/contacts.js';
+import { contactsRouter } from './routes/api/contacts.js';
+import { usersRouter } from './routes/api/users.js';
 dotenv.config();
 const app = express();
 
@@ -30,7 +31,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/api/contacts', router);
+app.use('/api/contacts', contactsRouter);
+app.use('/users', usersRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Contact with the given ID was not found' });
