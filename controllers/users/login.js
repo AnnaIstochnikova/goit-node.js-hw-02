@@ -17,7 +17,7 @@ export async function login(req, res, next) {
       return res.status(400).json({ message: 'Missing fields' });
     }
 
-    const { value, error } = await validateUser(email, password);
+    const { error } = await validateUser(email, password);
     if (error) {
       return res.status(400).json({ message: error });
     }
@@ -34,7 +34,7 @@ export async function login(req, res, next) {
     };
     const token = jwt.sign(payload, secret, { expiresIn: '3h' });
     await User.findOneAndUpdate({ email }, { token });
-    return res.status(200).json({ token: token, user: email, subscription });
+    return res.status(200).json({ token, user: email, subscription });
   } catch (error) {
     next(error);
   }

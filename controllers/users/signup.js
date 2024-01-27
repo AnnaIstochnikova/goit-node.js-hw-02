@@ -8,7 +8,7 @@ export async function signup(req, res, next) {
       return res.status(400).json({ message: 'Missing fields' });
     }
 
-    const { value, error } = await validateUser(email, password);
+    const { error } = await validateUser(email, password);
     if (error) {
       return res.status(400).json({ message: error });
     }
@@ -21,9 +21,7 @@ export async function signup(req, res, next) {
     const newUser = new User({ email });
     newUser.setPassword(password);
     await newUser.save();
-    return res
-      .status(201)
-      .json({ user: { email: newUser.email, subscription: newUser.subscription } });
+    return res.status(201).json({ user: { email, subscription: newUser.subscription } });
   } catch (error) {
     next(error);
   }
