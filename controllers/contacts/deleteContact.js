@@ -1,9 +1,9 @@
-import { Contact } from '#models/schemas/contact.js';
+import { findAndDeleteContact } from '#helpers/helpers.js';
 
 export async function deleteContact(req, res, next) {
   const { contactId } = req.params;
   try {
-    const contact = await Contact.findByIdAndDelete(contactId);
+    const contact = await findAndDeleteContact(contactId);
     contact ? res.status(200).json({ message: 'Contact deleted' }) : next();
   } catch (error) {
     next(error);

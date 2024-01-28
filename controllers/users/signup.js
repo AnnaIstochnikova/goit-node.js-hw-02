@@ -1,3 +1,4 @@
+import { findUser } from '#helpers/helpers.js';
 import { User } from '#models/schemas/user.js';
 import { validateUser } from '#models/validateUser.js';
 
@@ -13,7 +14,7 @@ export async function signup(req, res, next) {
       return res.status(400).json({ message: error });
     }
 
-    const sameEmail = await User.findOne({ email }).lean();
+    const sameEmail = await findUser({ email }).lean();
     if (sameEmail) {
       return res.status(409).json({ message: 'Email in use' });
     }

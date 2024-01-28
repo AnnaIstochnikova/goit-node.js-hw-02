@@ -35,6 +35,8 @@
   },
   "imports": {
     "#controllers/*": "./controllers/*",
-    "#models/*": "./models/*"
+    "#models/*": "./models/*",
+    "#middleware/*": "./middleware/*",
+    "#helpers/*": "./helpers/*"
   }
 }

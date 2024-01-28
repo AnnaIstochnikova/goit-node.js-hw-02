@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
-import { User } from '#models/schemas/user.js';
 import { validateUser } from '#models/validateUser.js';
+import { findAndUpdateUser, findUser } from '#helpers/helpers.js';
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ export async function login(req, res, next) {
       return res.status(400).json({ message: error });
     }
 
-    const user = await User.findOne({ email });
+    const user = await findUser({ email });
     const { subscription } = user;
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!user || !isPasswordCorrect) {
@@ -33,7 +33,7 @@ export async function login(req, res, next) {
       subscription,
     };
     const token = jwt.sign(payload, secret, { expiresIn: '3h' });
-    await User.findOneAndUpdate({ email }, { token });
+    await findAndUpdateUser({ email }, { token });
     return res.status(200).json({ token, user: email, subscription });
   } catch (error) {
     next(error);
