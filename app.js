@@ -1,14 +1,16 @@
-import express from 'express';
-import logger from 'morgan';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import logger from 'morgan';
 import dotenv from 'dotenv';
+import express from 'express';
+import passport from 'passport';
+import mongoose from 'mongoose';
 
-import { contactsRouter } from './routes/api/contacts.js';
 import { usersRouter } from './routes/api/users.js';
+import { contactsRouter } from './routes/api/contacts.js';
+import passportAuth from './config/jwt.js';
+
 dotenv.config();
 const app = express();
-
 const { URI_DB: uriDb } = process.env;
 
 const connectDB = async () => {
@@ -26,9 +28,11 @@ const connectDB = async () => {
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+// app.use(passport.initialize());
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+passportAuth();
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/contacts', contactsRouter);
