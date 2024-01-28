@@ -10,7 +10,7 @@ const findAndUpdateContact = (filter, updateField) =>
 
 const findUser = filter => User.findOne(filter);
 const findAndUpdateUser = (filter, updateField) =>
-  Contact.findOneAndUpdate(filter, { $set: updateField }, { new: true });
+  User.findOneAndUpdate(filter, updateField, { new: true });
 
 export {
   findUser,
