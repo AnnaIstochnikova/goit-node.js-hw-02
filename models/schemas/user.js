@@ -20,10 +20,6 @@ const usersSchema = new Schema({
     type: String,
     default: null,
   },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-  },
 });
 
 usersSchema.methods.setPassword = function (password) {

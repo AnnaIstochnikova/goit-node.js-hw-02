@@ -1,9 +1,11 @@
-import { addNewContact } from '../../helpers/helpers.js';
+import { addNewContact, findUser } from '#helpers/helpers.js';
 
 export async function createContact(req, res, next) {
   try {
-    const body = req.body;
-    const newContact = await addNewContact(body);
+    const user = res.user;
+    const { name, email } = req.body;
+    const newContact = await addNewContact({ name, email, owner: user._id });
+    console.log(newContact);
     newContact ? res.status(201).json(newContact) : next();
   } catch (error) {
     next(error);
