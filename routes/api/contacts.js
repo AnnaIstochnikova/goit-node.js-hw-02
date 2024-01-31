@@ -7,13 +7,13 @@ import { deleteContact } from '#controllers/contacts/deleteContact.js';
 import { updateContacts } from '#controllers/contacts/updateContacts.js';
 import { updateStatusContact } from '#controllers/contacts/updateStatusContact.js';
 
-const router = express.Router();
+const contactsRouter = express.Router();
 
-router.get('/', indexContacts);
-router.post('/', createContact);
-router.get('/:contactId', showContact);
-router.put('/:contactId', updateContacts);
-router.delete('/:contactId', deleteContact);
-router.patch('/:contactId/favorite', updateStatusContact);
+contactsRouter.get('/', indexContacts);
+contactsRouter.post('/', createContact);
+contactsRouter.get('/:contactId', showContact);
+contactsRouter.put('/:contactId', updateContacts);
+contactsRouter.delete('/:contactId', deleteContact);
+contactsRouter.patch('/:contactId/favorite', updateStatusContact);
 
-export { router };
+export { contactsRouter };
