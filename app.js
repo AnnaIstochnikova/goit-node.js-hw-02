@@ -4,10 +4,11 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 
+import passportAuth from './config/jwt.js';
 import { usersRouter } from './routes/api/users.js';
 import { contactsRouter } from './routes/api/contacts.js';
-import passportAuth from './config/jwt.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
+import { checkOrCreatePublic } from './middleware/avatarsMiddleware.js';
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ const connectDB = async () => {
     app.listen(3000, () => {
       console.log('Server running. Use our API on port: 3000');
     });
+    checkOrCreatePublic();
   } catch (err) {
     console.log(`DB connection error:${err}`);
     process.exit(1);
@@ -33,6 +35,7 @@ app.use(cors());
 app.use(express.json());
 passportAuth();
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
 app.use('/api/contacts', authMiddleware, contactsRouter);
 app.use('/users', usersRouter);
