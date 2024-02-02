@@ -8,7 +8,7 @@ import passportAuth from './config/jwt.js';
 import { usersRouter } from './routes/api/users.js';
 import { contactsRouter } from './routes/api/contacts.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
-import { checkOrCreatePublic } from './middleware/avatarsMiddleware.js';
+import { checkOrCreatePublic } from './controllers/users/public.js';
 
 dotenv.config();
 const app = express();

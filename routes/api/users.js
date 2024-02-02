@@ -7,17 +7,14 @@ import { logout } from '#controllers/users/logout.js';
 import { authMiddleware } from '#middleware/authMiddleware.js';
 import { getCurrentUserData } from '#controllers/users/getCurrentUserData.js';
 import { uploadAvatar } from '#controllers/users/uploadAvatar.js';
-import { storage } from '#middleware/avatarsMiddleware.js';
+import { storage, upload } from '#middleware/avatarsMiddleware.js';
 
 const usersRouter = express.Router();
-const upload = multer({
-  dest: storage,
-});
 
 usersRouter.post('/signup', signup);
 usersRouter.post('/login', login);
 usersRouter.get('/logout', authMiddleware, logout);
 usersRouter.get('/current', authMiddleware, getCurrentUserData);
-usersRouter.post('/avatars', upload.single('avatar'), uploadAvatar);
+usersRouter.post('/avatars', authMiddleware, upload.single('avatar'), uploadAvatar);
 
 export { usersRouter };
