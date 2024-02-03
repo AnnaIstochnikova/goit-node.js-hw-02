@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
-import pkg from 'gravatar';
+import * as gravatar from 'gravatar';
 
 const usersSchema = new Schema({
   password: {
@@ -30,7 +30,7 @@ usersSchema.methods.setPassword = function (password) {
   this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(9));
 };
 usersSchema.methods.setAvatar = function () {
-  this.avatarURL = pkg.url(this.email, { d: 'monsterid' });
+  this.avatarURL = gravatar.url(this.email, { d: 'monsterid' });
 };
 
 const User = mongoose.model('users', usersSchema);

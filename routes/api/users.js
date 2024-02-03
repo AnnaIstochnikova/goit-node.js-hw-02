@@ -1,5 +1,4 @@
 import express from 'express';
-import multer from 'multer';
 
 import { login } from '#controllers/users/login.js';
 import { signup } from '#controllers/users/signup.js';
@@ -7,7 +6,7 @@ import { logout } from '#controllers/users/logout.js';
 import { authMiddleware } from '#middleware/authMiddleware.js';
 import { getCurrentUserData } from '#controllers/users/getCurrentUserData.js';
 import { uploadAvatar } from '#controllers/users/uploadAvatar.js';
-import { storage, upload } from '#middleware/avatarsMiddleware.js';
+import { upload } from '#middleware/avatarsMiddleware.js';
 
 const usersRouter = express.Router();
 
