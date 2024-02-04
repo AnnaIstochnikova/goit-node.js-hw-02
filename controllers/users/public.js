@@ -1,8 +1,8 @@
-import { promises } from 'fs';
 import path from 'path';
+import { promises } from 'fs';
 
-export const publicPath = path.join(process.cwd(), 'public');
-export const mainPath = path.join(publicPath, 'avatars');
+const publicPath = path.join(process.cwd(), 'public');
+const mainPath = path.join(publicPath, 'avatars');
 export const temporaryPath = path.join(publicPath, 'avatars-temp');
 
 async function isFolderExists(path) {
