@@ -45,10 +45,7 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  const ValidationErrorReason = Object.keys(err?.errors)[0];
-  err.name === 'ValidationError'
-    ? res.status(400).json({ message: `Missing required ${ValidationErrorReason} - field` })
-    : res.status(500).json({ message: err.message });
+  return res.status(500).json({ message: err.message });
 });
 
 connectDB();
