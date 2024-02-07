@@ -21,6 +21,7 @@ export async function signup(req, res, next) {
 
     const newUser = new User({ email });
     newUser.setPassword(password);
+    newUser.setAvatar();
     await newUser.save();
     return res.status(201).json({ user: { email, subscription: newUser.subscription } });
   } catch (error) {
