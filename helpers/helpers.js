@@ -1,5 +1,5 @@
-import { Contact } from '../models/schemas/contact.js';
 import { User } from '../models/schemas/user.js';
+import { Contact } from '../models/schemas/contact.js';
 
 const getAllContacts = user => Contact.find({ owner: user._id });
 const findAndDeleteContact = (id, user) => Contact.findOneAndDelete({ _id: id, owner: user._id });

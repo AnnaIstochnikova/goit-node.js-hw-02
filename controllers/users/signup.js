@@ -1,7 +1,7 @@
+import { sendEmail } from './sendEmail.js';
 import { findUser } from '#helpers/helpers.js';
 import { User } from '#models/schemas/user.js';
 import { validateUser } from '#models/validateUser.js';
-import { sendEmail } from './sendEmail.js';
 
 export async function signup(req, res, next) {
   const { email, password } = req.body;
