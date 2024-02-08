@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import mongoose, { Schema } from 'mongoose';
 import * as gravatar from 'gravatar';
 
@@ -39,6 +40,9 @@ usersSchema.methods.setPassword = function (password) {
 };
 usersSchema.methods.setAvatar = function () {
   this.avatarURL = gravatar.url(this.email, { d: 'monsterid' });
+};
+usersSchema.methods.setVerificationToken = function () {
+  this.verificationToken = uuidv4();
 };
 
 const User = mongoose.model('users', usersSchema);

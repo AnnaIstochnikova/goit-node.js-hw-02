@@ -49,5 +49,4 @@ app.use((err, req, res, next) => {
 });
 
 connectDB();
-
 export { app };

@@ -1,6 +1,7 @@
 import { findUser } from '#helpers/helpers.js';
 import { User } from '#models/schemas/user.js';
 import { validateUser } from '#models/validateUser.js';
+import { sendEmail } from './sendEmail.js';
 
 export async function signup(req, res, next) {
   const { email, password } = req.body;
@@ -21,8 +22,10 @@ export async function signup(req, res, next) {
 
     const newUser = new User({ email });
     newUser.setPassword(password);
+    newUser.setVerificationToken();
     newUser.setAvatar();
     await newUser.save();
+    sendEmail(email, newUser.verificationToken);
     return res.status(201).json({ user: { email, subscription: newUser.subscription } });
   } catch (error) {
     next(error);
